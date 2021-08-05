@@ -44,6 +44,13 @@ namespace CourseProject
                 facebookOptions.AppSecret = "735328eda79e2be24a1cac0905970e83";
                 facebookOptions.AccessDeniedPath = "/AccessDeniedPathInfo";
             });
+
+            services.AddAuthentication().AddTwitter(twitterOptions =>
+            {
+                twitterOptions.ConsumerKey = Configuration["Authentication:Twitter:ConsumerAPIKey"];
+                twitterOptions.ConsumerSecret = Configuration["Authentication:Twitter:ConsumerSecret"];
+                twitterOptions.RetrieveUserDetails = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
