@@ -14,6 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNet.Security.OAuth.Vkontakte;
+using CourseProject.Models;
 
 namespace CourseProject
 {
@@ -43,13 +45,13 @@ namespace CourseProject
                 facebookOptions.AppId = "537550894236835";
                 facebookOptions.AppSecret = "735328eda79e2be24a1cac0905970e83";
                 facebookOptions.AccessDeniedPath = "/AccessDeniedPathInfo";
+            })
+            .AddVkontakte(options =>
+            {
+                options.ClientId = "7919924";
+                options.ClientSecret = "rXfuMzZI68m4WLLQXiAR";
+                options.AccessDeniedPath = "/AccessDeniedPathInfo";
             });
-            //.AddTwitter(twitterOptions =>
-            //{
-            //    twitterOptions.ConsumerKey = "";
-            //    twitterOptions.ConsumerSecret = "";
-            //    twitterOptions.RetrieveUserDetails = true;
-            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
