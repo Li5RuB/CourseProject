@@ -1,5 +1,4 @@
-﻿using CourseProject.Data.Entities;
-using CourseProject.Models;
+﻿using CourseProject.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;

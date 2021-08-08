@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CourseProject.Data.Entities
+namespace CourseProject.Models
 {
-    public class Topic
+    public class Tag
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public List<Collection> Collections { get; set; }
+        public List<Item> Items { get; set; }
     }
 }
