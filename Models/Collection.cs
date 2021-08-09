@@ -18,8 +18,36 @@ namespace CourseProject.Models
 
         public List<Item> Items { get; set; }
 
-        public List<Field> Fields { get; set; }
-
         public MyIdentity Creator { get; set; }
+
+        public string Integer1Name { get; set; }
+
+        public string Integer2Name { get; set; }
+
+        public string Integer3Name { get; set; }
+
+        public string Line1Name { get; set; }
+
+        public string Line2Name { get; set; }
+
+        public string Line3Name { get; set; }
+
+        public string Text1Name { get; set; }
+
+        public string Text2Name { get; set; }
+
+        public string Text3Name { get; set; }
+
+        public string Date1Name { get; set; }
+
+        public string Date2Name { get; set; }
+
+        public string Date3Name { get; set; }
+
+        public string Boolean1Name { get; set; }
+
+        public string Boolean2Name { get; set; }
+
+        public string Boolean3Name { get; set; }
     }
 }

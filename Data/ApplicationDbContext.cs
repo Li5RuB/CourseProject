@@ -17,8 +17,6 @@ namespace CourseProject.Data
 
         public DbSet<Tag> Tags { get; set; }
 
-        public DbSet<Field> Fields { get; set; }
-
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
