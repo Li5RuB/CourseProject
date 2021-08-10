@@ -16,6 +16,7 @@ namespace CourseProject.Data
         public DbSet<Topic> Topics { get; set; }
 
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<Comments> Comments { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

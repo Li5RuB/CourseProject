@@ -12,6 +12,7 @@ namespace CourseProject.Models
         public string Name { get; set; }
 
         public List<Tag> Tags { get; set; }
+        public List<Comments> Comments { get; set; }
 
         public Collection Collection { get; set; }
 

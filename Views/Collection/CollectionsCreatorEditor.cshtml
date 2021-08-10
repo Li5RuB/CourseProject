@@ -1,1 +1,86 @@
-﻿
+﻿@model Collection
+
+<div class="row justify-content-lg-center">
+    <div class="col-md-9">
+        <section>
+            <form id="Collection" method="post">
+                <h4>Collection creation</h4>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input asp-for="Name" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea asp-for="Description" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Topic</label>
+                    <select asp-for="Topic" asp-items="ViewBag.Companies"></select>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(i => i.Integer1Name)
+                    @Html.EditorFor(i => i.Integer1Name)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(i => i.Integer2Name)
+                    @Html.EditorFor(i => i.Integer2Name)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(i => i.Integer3Name)
+                    @Html.EditorFor(i => i.Integer3Name)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(i => i.Line1Name)
+                    @Html.EditorFor(i => i.Line1Name)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(i => i.Line2Name)
+                    @Html.EditorFor(i => i.Line2Name)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(i => i.Line3Name)
+                    @Html.EditorFor(i => i.Line3Name)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(i => i.Text1Name)
+                    @Html.EditorFor(i => i.Text1Name)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(i => i.Text2Name)
+                    @Html.EditorFor(i => i.Text2Name)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(i => i.Text3Name)
+                    @Html.EditorFor(i => i.Text3Name)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(i => i.Date1Name)
+                    @Html.EditorFor(i => i.Date1Name)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(i => i.Date2Name)
+                    @Html.EditorFor(i => i.Date2Name)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(i => i.Date3Name)
+                    @Html.EditorFor(i => i.Date3Name)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(i => i.Boolean1Name)
+                    @Html.EditorFor(i => i.Boolean1Name)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(i => i.Boolean2Name)
+                    @Html.EditorFor(i => i.Boolean2Name)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(i => i.Boolean3Name)
+                    @Html.EditorFor(i => i.Boolean3Name)
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
