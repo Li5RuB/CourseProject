@@ -8,8 +8,8 @@ namespace CourseProject.Models
 {
     public class MyIdentity : IdentityUser
     {
-        public List<Collection> Collections { get; set; } 
+        public ICollection<Collection> Collections { get; set; } 
 
-        public List<Item> WhatLiked { get; set; }
+        public ICollection<Item> WhatLiked { get; set; }
     }
 }

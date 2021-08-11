@@ -1,7 +1,7 @@
 ﻿@model Collection
 
 <div class="row justify-content-lg-center">
-    <div class="col-md-4">
+    <div class="col-md-5">
         <section>
             <form id="Collection" method="post">
                 <h4>Collection creation</h4>
@@ -10,13 +10,21 @@
                     <input asp-for="Name" class="form-control" />
                 </div>
                 <div class="form-group">
+                    <label>Topic</label>
+                    <select asp-for="TopicId" asp-items="ViewBag.Topics"></select>
+                </div>
+                <div class="form-group">
                     <label>Description</label>
                     <textarea asp-for="Description" class="form-control"></textarea>
                 </div>
                 <div class="form-group">
-                    <label>Topic</label>
-                    <select asp-for="Topic" asp-items="ViewBag.Companies"></select>
+                    <label>Drop image</label>
+                    <img id="" class="img-fluid rounded mb-4 mb-lg-0 dropzone" src="https://cdn.icon-icons.com/icons2/1380/PNG/512/emblemdownloads_93482.png" alt="" />
+                    <input asp-for="UrlImg" class="form-control imgurl" readonly />
                 </div>
+                <h4>
+                    Optional fields, enter a name if required
+                </h4>
                 <div class="form-group">
                     @Html.LabelFor(i => i.Integer1Name)
                     @Html.EditorFor(i => i.Integer1Name)
@@ -84,3 +92,13 @@
         </section>
     </div>
 </div>
+
+<script src="~/js/uploadimg.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script>
+    window.onload = function () {
+        dropimage('dropzone', 'imgurl');
+        console.log('load');
+    }
+</script>

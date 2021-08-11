@@ -1,7 +1,10 @@
 ﻿using CourseProject.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace CourseProject.Models
@@ -10,15 +13,24 @@ namespace CourseProject.Models
     {
         public int Id { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         public string Description { get; set; }
 
+        [Required]
+        public int TopicId { get; set; }
+
+        [Required]
         public Topic Topic { get; set; }
 
-        public List<Item> Items { get; set; }
+        public ICollection<Item> Items { get; set; }
 
+        [JsonIgnore]
+        [IgnoreDataMember]
         public MyIdentity Creator { get; set; }
+
+        public string UrlImg { get; set; }
 
         public string Integer1Name { get; set; }
 

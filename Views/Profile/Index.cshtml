@@ -1,4 +1,11 @@
-﻿<div class="row justify-content-md-center">
+﻿@using Newtonsoft.Json;
+@model ICollection<Collection>
+
+@{ 
+    var Collections = JsonConvert.SerializeObject(Model, Formatting.Indented);
+}
+
+<div class="row justify-content-md-center">
     <div class="col-md-9">
         <div class="row pb-3">
             <div class="col">
@@ -7,10 +14,10 @@
                 </h3>
             </div>
             <div class="col float-right">
-                <a href="#" class="btn btn-primary float-right">Create collection</a>
+                <a href="~/Collection/CollectionsCreatorEditor" class="btn btn-primary float-right">Create collection</a>
             </div>
         </div>
-        <div class="col">
+        <div id="collections" class="col">
             <div class="card">
                 <img class="card-img-top" src="https://images11.popmeh.ru/upload/img_cache/893/8937fa9e3728cfe90dea1a3aa5b520e1_cropped_666x375.jpg" alt="Card image cap">
                 <div class="card-body">
@@ -27,3 +34,13 @@
         </div>
     </div>
 </div>
+
+<script src="~/js/Collection.js"></script>
+
+<script>
+    var collections = @Html.Raw(Collections);
+    window.onload = function () {
+        console.log(collections);
+        collections.forEach(c => CreateCollCard('collections',c.Name, c.Topic.Name, c.Description, c.UrlImg))
+    }
+</script>

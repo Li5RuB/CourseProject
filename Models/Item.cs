@@ -11,11 +11,11 @@ namespace CourseProject.Models
 
         public string Name { get; set; }
 
-        public List<Tag> Tags { get; set; }
+        public ICollection<Tag> Tags { get; set; }
 
-        public List<Comments> Comments { get; set; }
+        public ICollection<Comments> Comments { get; set; }
 
-        public List<MyIdentity> WhoLiked { get; set; }
+        public ICollection<MyIdentity> WhoLiked { get; set; }
 
         public Collection Collection { get; set; }
 

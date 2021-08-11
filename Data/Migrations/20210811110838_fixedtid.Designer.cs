@@ -4,14 +4,16 @@ using CourseProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CourseProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210811110838_fixedtid")]
+    partial class fixedtid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,15 +86,11 @@ namespace CourseProject.Data.Migrations
                     b.Property<int>("TopicId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UrlImg")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CreatorId");
 
-                    b.HasIndex("TopicId")
-                        .IsUnique();
+                    b.HasIndex("TopicId");
 
                     b.ToTable("Collections");
                 });
@@ -449,8 +447,8 @@ namespace CourseProject.Data.Migrations
                         .HasForeignKey("CreatorId");
 
                     b.HasOne("CourseProject.Models.Topic", "Topic")
-                        .WithOne("Collections")
-                        .HasForeignKey("CourseProject.Models.Collection", "TopicId")
+                        .WithMany("Collections")
+                        .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -11,6 +11,6 @@ namespace CourseProject.Models
 
         public string Name { get; set; }
 
-        public List<Item> Items { get; set; }
+        public ICollection<Item> Items { get; set; }
     }
 }
