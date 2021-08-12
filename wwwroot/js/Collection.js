@@ -1,64 +1,47 @@
-﻿class Collection{
-    constructor(title,topic,description,urlimg) {
-        this.title = title;
-        this.topic = topic;
-        this.description = description;
-        this.urlimg = urlimg;
-        this.CollectionsCard;    
-    }
-    CreateCard(){
-        this.CollectionsCard = document.createElement('div');
-        this.CollectionsCard.className = "card";
-        this.CollectionsCard.appendChild(CreateImage());
+﻿function setup() {}
+
+var defaultimg = "https://www.smartdatajob.com/images/joomlart/demo/default.jpg";
+    
+class Collection {
+    constructor(id, title, topic, description, urlimg) {
+        let container = select('#collections');
+        this.carddiv = createDiv('').addClass('card').parent(container).id(id);
+        this.img = createImg(urlimg).addClass('card-img-top imgcard').parent(this.carddiv);
+        this.img.elt.addEventListener('error', () => {
+            this.img.elt.src = defaultimg;
+        })
+        this.cardBody = createDiv('').addClass('card-body').parent(this.carddiv);
+        this.fillcardbody(title, topic, description);
+        this.cardFooter = createDiv('').addClass('card-footer').parent(this.carddiv);
+        this.fillcardfooter(id);
+        this.addbuttonevents();
     }
 
-    CreateCollection() {
-        CreateCard()
-        CreateCardsTitle();
-        CreateCardsTopic();
-        CreateCardsText();
-        CreateCardsButton();
-        return this.CollectionsCard
+    fillcardbody(title, topic, description) {
+        this.title = createElement('h5').addClass('card-title').html(title).parent(this.cardBody);
+        this.topic = createElement('h7').addClass('card-title').html(topic).parent(this.cardBody);
+        this.description = createElement('p').addClass('card-text').html(description).parent(this.cardBody);
     }
 
-    CreateImage() {
-        let childimg = document.createElement('img');
-        childimg.className = "card-img-top";
-        childimg.src = urlimg;
-        childimg.alt = "Image not loaded"
-        return childimg;
+    fillcardfooter(id) {
+        this.buttonv = createA('#', 'Viewing').addClass('btn btn-primary').parent(this.cardFooter);
+        this.buttone = createA('#', 'Edit').addClass('btn btn-warning').parent(this.cardFooter);
+        this.buttonr = createA('#', 'Remove').addClass('btn btn-secondary').parent(this.cardFooter);
     }
 
-    CreateCardsTitle() {
-        let title = document.createElement('h5');
-        title.className = "card-title";
-        title.innerHTML = this.title;
-        this.CollectionsCard.appendChild(title);
-    }
-    
-    CreateCardsTopic() {
-        let topic = document.createElement('h7');
-        topic.className = "card-title";
-        topic.innerHTML = this.topic;
-        this.CollectionsCard.appendChild(topic);
-    }
-    
-    CreateCardsText() {
-        let text = document.createElement('p');
-        text.className = "card - text";
-        text.innerHTML = this.description;
-        this.CollectionsCard.appendChild(text);
-    }
-    
-    CreateCardsButton() {
-        let drow = document.createElement('div');
-        drow.className = "row justify-content-end";
-        drow.innerHTML = '<a href="#" class="btn btn-primary">Viewing</a>< a href = "#" class="btn btn-warning" > Edit</a ><a href="#" class="btn btn-secondary">Remove</a>'
-        this.CollectionsCard.appendChild(drow);
+    addbuttonevents() {
+        this.buttonv.elt.addEventListener('click', () => {
+            console.log('clickv ' + this.carddiv.id())
+        })
+        this.buttone.elt.addEventListener('click', () => {
+            console.log('clicke ' + this.carddiv.id())
+        })
+        this.buttonr.elt.addEventListener('click', () => {
+            console.log('clickr ' + this.carddiv.id())
+        })
     }
 }
-    
-function CreateCollCard(place, title, topic, description, urlimg) {
-    let collection = new Collection(title, topic, description, urlimg); 
-    document.getElementById(place).append(collection.CreateCollection());
+
+function CreateCollCard(id, title, topic, description, urlimg) {
+    let coll = new Collection(id, title, topic, description, urlimg);
 }
