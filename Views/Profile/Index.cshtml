@@ -1,7 +1,7 @@
 ﻿@using Newtonsoft.Json;
 @model ICollection<Collection>
-
-@{ 
+@Html.Hidden("EditUrl", Url.Action("CollectionsCreatorEditor", "Collection", new { id = "__id__" }))
+@{
     var Collections = JsonConvert.SerializeObject(Model, Formatting.Indented);
 }
 

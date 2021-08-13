@@ -1,5 +1,5 @@
 ﻿function setup() {}
-
+var editurl = document.getElementById('EditUrl').value;
 var defaultimg = "https://www.smartdatajob.com/images/joomlart/demo/default.jpg";
     
 class Collection {
@@ -34,7 +34,7 @@ class Collection {
             console.log('clickv ' + this.carddiv.id())
         })
         this.buttone.elt.addEventListener('click', () => {
-            console.log('clicke ' + this.carddiv.id())
+            location.href = editurl.replace('__id__', this.carddiv.id());
         })
         this.buttonr.elt.addEventListener('click', () => {
             console.log('clickr ' + this.carddiv.id())

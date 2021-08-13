@@ -17,6 +17,7 @@ namespace CourseProject.Controllers
     {
         private UserManager<MyIdentity> userManager;
         private ApplicationDbContext context;
+
         public CollectionController(UserManager<MyIdentity> userManager,ApplicationDbContext context)
         {
             this.userManager = userManager;
@@ -28,13 +29,20 @@ namespace CourseProject.Controllers
 
             return View();
         }
+
         [Authorize]
-        public IActionResult CollectionsCreatorEditor()
+        public IActionResult CollectionsCreatorEditor(string id = "0")
         {
+            int iid = int.Parse(id);
             var topics = context.Topics;
             ViewBag.Topics = new SelectList(topics, "Id", "Name");
+            if (iid > 0){
+                var coll = context.Collections.Find(iid);
+                return View(coll);
+            }
             return View();
         }
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> CollectionsCreatorEditorAsync(Collection collection)
@@ -43,6 +51,7 @@ namespace CourseProject.Controllers
             var user = await userManager.Users.Include(i=>i.Collections).SingleAsync(i=>i.Email == curuser.Email);
             user.Collections.Add(collection);
             var result = await userManager.UpdateAsync(user);
+            ViewData["msg"] = "success";
             return View();
         }
     }
