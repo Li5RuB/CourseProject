@@ -37,7 +37,16 @@ class Collection {
             location.href = editurl.replace('__id__', this.carddiv.id());
         })
         this.buttonr.elt.addEventListener('click', () => {
-            console.log('clickr ' + this.carddiv.id())
+            var id = this.carddiv.id();
+            var object = this.elt;
+            $.ajax({
+                url: 'Collection/Delete/',
+                type: 'DELETE',
+                data: { 'id': id },
+                success: function (result) {
+                    $(result).remove()
+                }
+            })
         })
     }
 }

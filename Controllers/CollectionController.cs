@@ -44,16 +44,25 @@ namespace CourseProject.Controllers
         }
 
         [Authorize]
+        [HttpDelete]
+        public async Task<OkObjectResult> Delete(string id)
+        {
+            var collection = await context.Collections.FindAsync(int.Parse(id));
+            context.Collections.Remove(collection);
+            await context.SaveChangesAsync();
+            return Ok($"#{id}");
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CollectionsCreatorEditorAsync(Collection collection)
         {
-            var coll = await context.Collections.FindAsync(collection.Id);
+            var coll = await context.Collections.AsNoTracking().FirstOrDefaultAsync(i=>i.Id == collection.Id);
             if (coll != null)
-                EditCollection(collection,coll);
+                EditCollection(collection);
             else
-                CreateCollectionAsync(collection);
-            ViewData["msg"] = "success";
-            return View();
+                await CreateCollectionAsync(collection);
+            return RedirectToAction("Index", "Profile");
         }
 
         private async Task CreateCollectionAsync(Collection collection)
@@ -64,27 +73,9 @@ namespace CourseProject.Controllers
             var result = await userManager.UpdateAsync(user);
         }
 
-        private void EditCollection(Collection editcoll, Collection coll)
+        private void EditCollection(Collection editcoll)
         {
-            coll.Name = editcoll.Name;
-            coll.Description = editcoll.Description;
-            coll.TopicId = editcoll.TopicId;
-            coll.UrlImg = editcoll.UrlImg;
-            coll.Boolean1Name = editcoll.Boolean1Name;
-            coll.Boolean2Name = editcoll.Boolean2Name;
-            coll.Boolean3Name = editcoll.Boolean3Name;
-            coll.Date1Name = editcoll.Date1Name;
-            coll.Date2Name = editcoll.Date2Name;
-            coll.Date3Name = editcoll.Date3Name;
-            coll.Integer1Name = editcoll.Integer1Name;
-            coll.Integer2Name = editcoll.Integer2Name;
-            coll.Integer3Name = editcoll.Integer3Name;
-            coll.Line1Name = editcoll.Line1Name;
-            coll.Line2Name = editcoll.Line2Name;
-            coll.Line3Name = editcoll.Line3Name;
-            coll.Text1Name = editcoll.Text1Name;
-            coll.Text2Name = editcoll.Text2Name;
-            coll.Text3Name = editcoll.Text3Name;
+            context.Collections.Update(editcoll);
             context.SaveChanges();
         }
     }

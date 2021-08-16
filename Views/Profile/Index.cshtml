@@ -2,6 +2,10 @@
 @model ICollection<Collection>
 @Html.Hidden("EditUrl", Url.Action("CollectionsCreatorEditor", "Collection", new { id = "__id__" }))
 @{
+    foreach (var item in Model)
+    {
+        item.Description = MarkdownParser.Parse(item.Description);
+    }
     var Collections = JsonConvert.SerializeObject(Model, Formatting.Indented);
 }
 
@@ -30,4 +34,5 @@
         console.log(collections);
         collections.forEach(c => CreateCollCard(c.Id, c.Name, c.Topic.Name, c.Description, c.UrlImg))
     }
+
 </script>
