@@ -1,5 +1,6 @@
 ﻿function setup() {}
 var editurl = document.getElementById('EditUrl').value;
+var viewurl = document.getElementById('ViewUrl').value;
 var defaultimg = "https://www.smartdatajob.com/images/joomlart/demo/default.jpg";
     
 class Collection {
@@ -24,14 +25,14 @@ class Collection {
     }
 
     fillcardfooter(id) {
-        this.buttonv = createA('#', 'Viewing').addClass('btn btn-primary').parent(this.cardFooter);
+        this.buttonv = createA('#', 'View').addClass('btn btn-primary').parent(this.cardFooter);
         this.buttone = createA('#', 'Edit').addClass('btn btn-warning').parent(this.cardFooter);
         this.buttonr = createA('#', 'Remove').addClass('btn btn-secondary').parent(this.cardFooter);
     }
 
     addbuttonevents() {
         this.buttonv.elt.addEventListener('click', () => {
-            console.log('clickv ' + this.carddiv.id())
+            location.href = viewurl.replace('__id__', this.carddiv.id());
         })
         this.buttone.elt.addEventListener('click', () => {
             location.href = editurl.replace('__id__', this.carddiv.id());

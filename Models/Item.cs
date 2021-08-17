@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace CourseProject.Models
@@ -17,6 +19,8 @@ namespace CourseProject.Models
 
         public ICollection<MyIdentity> WhoLiked { get; set; }
 
+        [JsonIgnore]
+        [IgnoreDataMember]
         public Collection Collection { get; set; }
 
         public int Integer1 { get; set; }

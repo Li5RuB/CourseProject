@@ -1,12 +1,13 @@
 ﻿@using Newtonsoft.Json;
 @model ICollection<Collection>
 @Html.Hidden("EditUrl", Url.Action("CollectionsCreatorEditor", "Collection", new { id = "__id__" }))
+@Html.Hidden("ViewUrl", Url.Action("Index", "Collection", new { id = "__id__" }))
 @{
     foreach (var item in Model)
     {
         item.Description = MarkdownParser.Parse(item.Description);
     }
-    var Collections = JsonConvert.SerializeObject(Model, Formatting.Indented);
+    var Collections = JsonConvert.SerializeObject(Model, Formatting.Indented);  
 }
 
 <div class="row justify-content-md-center">
@@ -14,7 +15,7 @@
         <div class="row pb-3">
             <div class="col">
                 <h3>
-                    Your collections
+                    Your collections:
                 </h3>
             </div>
             <div class="col float-right">
@@ -22,6 +23,7 @@
             </div>
         </div>
         <div id="collections" class="col">
+            <hr />
         </div>
     </div>
 </div>

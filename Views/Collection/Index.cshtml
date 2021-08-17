@@ -1,1 +1,63 @@
-﻿
+﻿@using Newtonsoft.Json;
+@model Collection
+@{
+    var Collection = JsonConvert.SerializeObject(Model, Formatting.Indented);
+    var defimg = "https://www.smartdatajob.com/images/joomlart/demo/default.jpg";
+    var img = Model != null ? (string.IsNullOrEmpty(Model.UrlImg) ? defimg : Model.UrlImg) : defimg;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 m-3 align-self-center">
+            <img id="" class="img-fluid rounded mb-4 mb-lg-0 dropzone" src="@img" alt="" />
+        </div>
+        <div class="col-4 m-3">
+            <h2>@Model.Name</h2>
+            <h4>@Model.Topic.Name</h4>
+            <hr />
+            <p>@Html.Raw(MarkdownParser.Parse(Model.Description))</p>
+        </div>
+    </div>
+</div>
+
+
+<div id="grid" class="container">
+
+</div>
+
+
+<script src="https://kendo.cdn.telerik.com/2019.2.619/js/jquery.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2021.1.330/js/kendo.all.min.js"></script>
+<script src="~/js/ItemGrid.js"></script>
+<script>
+    var collectionId = '@Model.Id';
+    var i1 = '@Model.Integer1Name'
+    var i2 = '@Model.Integer2Name'
+    var i3 = '@Model.Integer3Name'
+    var b1 = '@Model.Boolean1Name'
+    var b2 = '@Model.Boolean2Name'
+    var b3 = '@Model.Boolean3Name'
+    var l1 = '@Model.Line1Name'
+    var l2 = '@Model.Line2Name'
+    var l3 = '@Model.Line3Name'
+    var t1 = '@Model.Text1Name'
+    var t2 = '@Model.Text2Name'
+    var t3 = '@Model.Text3Name'
+    var d1 = '@Model.Date1Name'
+    var d2 = '@Model.Date2Name'
+    var d3 = '@Model.Date3Name'
+
+    var openread = function (e) {
+
+    }
+
+    var crerateitem = function (e) {
+        var url = '@Url.Action("ItemCreatorEditor", "Collection")';
+        window.location.href = url;
+    }
+
+    var edititem = function (e) {
+        var url = '@Url.Action("ItemCreatorEditor", "Collection")' + '?id=' + this.dataItem($(e.target).closest("tr")).id;
+        window.location.href = url;
+    }
+</script>

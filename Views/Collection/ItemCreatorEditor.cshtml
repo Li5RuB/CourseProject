@@ -1,0 +1,6 @@
+﻿@model Item
+@Html.Hidden("Profile", Url.Action("Index", "Profile"))
+@{
+    string buttontext = Model != null ? "Edit" : "Create";
+    string msg = ViewData["msg"] != null ? ViewData["msg"].ToString() : null;
+}

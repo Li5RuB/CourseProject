@@ -24,9 +24,29 @@ namespace CourseProject.Controllers
             this.context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync(string id = "0")
         {
+            //ViewData["Role"] = "Autor";
+            int iid = int.Parse(id);
+            var collection = await context.Collections.Include(i => i.Topic).Include(i => i.Items).FirstOrDefaultAsync(i => i.Id == iid);
+            return View(collection);
+        }
 
+        public async Task<JsonResult> GetItemsAsync(string Id)
+        {
+            var Collection = await context.Collections.Include(i=>i.Items).ThenInclude(i=>i.Tags).FirstOrDefaultAsync(i=> i.Id==int.Parse(Id));
+            var Items = Collection.Items;
+            return Json(Items);
+        }
+
+        [Authorize]
+        public IActionResult ItemCreatorEditor(string id = "0")
+        {
+            int iid = int.Parse(id);
+            if (iid>0){
+                var item = context.Items.Include(i=>i.Tags).FirstOrDefault(i=>i.Id==iid);
+                return View(item);
+            }
             return View();
         }
 
