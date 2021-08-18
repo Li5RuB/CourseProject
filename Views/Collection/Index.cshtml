@@ -49,15 +49,15 @@
 
     var openread = function (e) {
 
-    }
+    } 
 
     var crerateitem = function (e) {
-        var url = '@Url.Action("ItemCreatorEditor", "Collection")';
+        var url = '@Url.Action("ItemCreatorEditor", "Collection", new { collectionid = Model.Id })';
         window.location.href = url;
     }
 
     var edititem = function (e) {
-        var url = '@Url.Action("ItemCreatorEditor", "Collection")' + '?id=' + this.dataItem($(e.target).closest("tr")).id;
+        var url = '@Url.Action("ItemCreatorEditor", "Collection", new { collectionid = Model.Id, id = "__id__"})'.replace("__id__", this.dataItem($(e.target).closest("tr")).id);
         window.location.href = url;
     }
 </script>

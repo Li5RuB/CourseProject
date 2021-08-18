@@ -5,9 +5,12 @@
 @{
     foreach (var item in Model)
     {
-        item.Description = MarkdownParser.Parse(item.Description);
+        if (!string.IsNullOrEmpty(item.Description))
+        {
+            item.Description = MarkdownParser.Parse(item.Description);
+        }
     }
-    var Collections = JsonConvert.SerializeObject(Model, Formatting.Indented);  
+    var Collections = JsonConvert.SerializeObject(Model, Formatting.Indented);
 }
 
 <div class="row justify-content-md-center">

@@ -67,6 +67,7 @@
         edit: function (e) {
             e.container.find()
         },
+        toolbar: ["create"],
         pageable: true,
         sortable: true,
         navigatable: true,
@@ -76,6 +77,7 @@
         filterable: true,
 
     });
+    $('.k-grid-add').on('click', crerateitem)
 })
 
 

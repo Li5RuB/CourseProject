@@ -1,5 +1,4 @@
 ﻿@model Collection
-@Html.Hidden("Profile", Url.Action("Index", "Profile"))
 @{
     string buttontext = Model != null ? "Edit" : "Create";
     string msg = ViewData["msg"]!=null?ViewData["msg"].ToString():null;
@@ -112,10 +111,14 @@
     var m = '@Html.Raw(msg)';
     var url = document.getElementById('Profile').value;
     window.onload = function () {
-        if (m =='success') {
-            location.href = url;
-        }
         dropimage('dropzone', 'imgurl');
         console.log('load');
     }
+
+    $('#Collection').submit(function (e) {
+        if ($.trim($("#Name").val()) == "") {
+            e.preventDefault();
+            alert('You did not fill in the name field');
+        }
+    });
 </script>

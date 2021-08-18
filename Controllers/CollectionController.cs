@@ -40,14 +40,65 @@ namespace CourseProject.Controllers
         }
 
         [Authorize]
-        public IActionResult ItemCreatorEditor(string id = "0")
-        {
+        public IActionResult ItemCreatorEditor(string collectionid, string id = "0")
+        {            
             int iid = int.Parse(id);
             if (iid>0){
-                var item = context.Items.Include(i=>i.Tags).FirstOrDefault(i=>i.Id==iid);
+                var item = context.Items.Include(i=>i.Tags).Include(i=>i.Collection).FirstOrDefault(i=>i.Id==iid);
+                ViewData["func"] = "Edit";
                 return View(item);
             }
-            return View();
+            ViewData["func"] = "Create";
+            return View(new Item() { Collection = context.Collections.Find(int.Parse(collectionid)), CollectionId = int.Parse(collectionid)});
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ItemCreatorEditorAsync(Item item, string tags)
+        {
+            var i = await context.Items.Include(i => i.Tags).FirstOrDefaultAsync(i=>i.Id == item.Id);
+            var t = tags.Split(',');
+            item = await GetItemWithTags(item, t);
+            if (i != null){
+                await RemoveOldTags(i);
+                context.ChangeTracker.Clear();
+                await EditItemAsync(item);
+            }
+            else
+                await CreateItemAsync(item);
+            return RedirectToAction("Index", "Collection", new {id = item.CollectionId.ToString()});
+        }
+
+        private async Task RemoveOldTags(Item i)
+        {
+            foreach (var it in i.Tags)
+            {
+                i.Tags.Remove(it);
+                await context.SaveChangesAsync();
+            }
+        }
+        private async Task<Item> GetItemWithTags(Item item, string[] t)
+        {
+            item.Tags.Clear();
+            foreach (var tag in t){
+                var ta = await context.Tags.FirstOrDefaultAsync(i => i.Name == tag);
+                if (ta == null)
+                    context.Tags.Add(new Tag() { Name = tag });
+                await context.SaveChangesAsync();
+                item.Tags.Add(context.Tags.FirstOrDefault(i => i.Name == tag));
+            }
+            return item;
+        }
+        private async Task CreateItemAsync(Item item)
+        {
+            await context.Items.AddAsync(item);
+            await context.SaveChangesAsync();
+        }
+
+        private async Task EditItemAsync(Item edititem)
+        {
+            context.Items.Update(edititem);
+            await context.SaveChangesAsync();
         }
 
         [Authorize]

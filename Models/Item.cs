@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
@@ -11,6 +12,7 @@ namespace CourseProject.Models
     {
         public int Id { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         public ICollection<Tag> Tags { get; set; }
@@ -18,6 +20,8 @@ namespace CourseProject.Models
         public ICollection<Comments> Comments { get; set; }
 
         public ICollection<MyIdentity> WhoLiked { get; set; }
+
+        public int CollectionId { get; set; }
 
         [JsonIgnore]
         [IgnoreDataMember]
