@@ -3,7 +3,7 @@ var editurl = document.getElementById('EditUrl').value;
 var viewurl = document.getElementById('ViewUrl').value;
 var defaultimg = "https://www.smartdatajob.com/images/joomlart/demo/default.jpg";
     
-class Collection {
+class Collection { 
     constructor(id, title, topic, description, urlimg) {
         let container = select('#collections');
         this.carddiv = createDiv('').addClass('card').parent(container).id(id);

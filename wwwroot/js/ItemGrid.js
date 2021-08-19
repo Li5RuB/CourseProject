@@ -59,9 +59,8 @@
             { field: "text1", title: t1, type: "text", hidden: CheckNullOrEmpty(t1) },
             { field: "text2", title: t2, type: "text", hidden: CheckNullOrEmpty(t2) },
             { field: "text3", title: t3, type: "text", hidden: CheckNullOrEmpty(t3) },
-            { command: { text: 'edit', click: edititem}, width: 80 },
-            { command: { text: 'open', click: openread}, width: 80 },
-            { command: { text: 'delete', click: deleteitem }, width: 80 },
+            { command: [{ text: 'edit', click: edititem }, { text: 'open', click: openread }, { text: 'delete', click: deleteitem }],width:230 },
+
         ],
         dataSource: datasource,
         edit: function (e) {
@@ -86,7 +85,7 @@ var deleteitem = function (e) {
     var tr = $(e.target).closest("tr");
     var id = this.dataItem(tr).id;
     kendo.confirm("Are you sure that you want delete this item?").then(function () {
-        $.post('/Сollection/DeleteItem', { '': id }, function () {
+        $.post('/Item/Delete', { '': id }, function () {
             $("#grid").data("kendoGrid").dataSource.read();
         });
     }, function () { });

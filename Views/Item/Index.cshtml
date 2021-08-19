@@ -1,0 +1,201 @@
+﻿@using Newtonsoft.Json;
+@model Item
+@{
+    var Item = JsonConvert.SerializeObject(Model, Formatting.Indented);
+    var tags = Model.Tags != null ? string.Join(", ", Model.Tags.Select(i => i.Name).ToArray()) : "No tags set";
+}
+
+<div class="container pb-4" style="background-color: #F2F2F2">
+    <div class="row justify-content-center pb-4  pt-2">
+        <h3>@Model.Name</h3>
+    </div>
+    <div class="row justify-content-center pb-4">
+        <h4>Collection`s name: @Model.Collection.Name</h4>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-5 m-3">
+            <div>
+                <h4>Tags:</h4>
+                <p class="mb-0">@tags</p>
+            </div>
+            <hr />
+            @if (!string.IsNullOrEmpty(Model.Collection.Line1Name))
+            {
+                <div>
+
+                    <h4>@Model.Collection.Line1Name:</h4>
+                    <p class="mb-0">@Model.Line1</p>
+
+                </div>
+                <hr />
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Collection.Line2Name))
+            {
+                <div>
+
+                    <h4>@Model.Collection.Line2Name</h4>
+                    <p class="mb-0">@Model.Line2</p>
+
+                </div>
+                <hr />
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Collection.Line3Name))
+            {
+                <div>
+
+                    <h4>@Model.Collection.Line3Name</h4>
+                    <p class="mb-0">@Model.Line3</p>
+
+                </div>
+                <hr />
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Collection.Integer1Name))
+            {
+                <div>
+
+                    <h4>@Model.Collection.Integer1Name</h4>
+                    <p class="mb-0">@Model.Integer1</p>
+
+                </div>
+                <hr />
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Collection.Integer2Name))
+            {
+                <div>
+
+                    <h4>@Model.Collection.Integer2Name</h4>
+                    <p class="mb-0">@Model.Integer2</p>
+
+                </div>
+                <hr />
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Collection.Integer3Name))
+            {
+                <div>
+
+                    <h4>@Model.Collection.Integer3Name</h4>
+                    <p class="mb-0">@Model.Integer3</p>
+
+                </div>
+                <hr />
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Collection.Boolean1Name))
+            {
+                <div>
+
+                    <h4>@Model.Collection.Boolean1Name</h4>
+                    <p class="mb-0">@Model.Boolean1</p>
+
+                </div>
+                <hr />
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Collection.Boolean2Name))
+            {
+                <div>
+
+                    <h4>@Model.Collection.Boolean2Name</h4>
+                    <p class="mb-0">@Model.Boolean2</p>
+
+                </div>
+            }
+
+        </div>
+        <div class="col-5 m-3">
+            @if (!string.IsNullOrEmpty(Model.Collection.Boolean3Name))
+            {
+                <div>
+
+                    <h4>@Model.Collection.Boolean3Name</h4>
+                    <p class="mb-0">@Model.Boolean3</p>
+
+                </div>
+                <hr />
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Collection.Date1Name))
+            {
+                <div>
+
+                    <h4>@Model.Collection.Date1Name</h4>
+                    <p class="mb-0">@Model.Date1</p>
+
+                </div>
+                <hr />
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Collection.Date2Name))
+            {
+                <div>
+
+                    <h4>@Model.Collection.Date2Name</h4>
+                    <p class="mb-0">@Model.Date2</p>
+
+                </div>
+                <hr />
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Collection.Date3Name))
+            {
+                <div>
+
+                    <h4>@Model.Collection.Date3Name</h4>
+                    <p class="mb-0">@Model.Date3</p>
+                </div>
+                <hr />
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Collection.Text1Name))
+            {
+                <div>
+
+                    <h4>@Model.Collection.Text1Name</h4>
+                    <p class="mb-0">@Model.Text1</p>
+
+                </div>
+                <hr />
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Collection.Text2Name))
+            {
+                <div>
+
+                    <h4>@Model.Collection.Text2Name</h4>
+                    <p class="mb-0">@Model.Text2</p>
+
+                </div>
+                <hr />
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Collection.Text3Name))
+            {
+                <div>
+
+                    <h4>@Model.Collection.Text3Name</h4>
+                    <p class="mb-0">@Model.Text3</p>
+
+                </div>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="m-2 ml-4">
+            <button class="btn btn-primary"><i id="likebutton" class="fa fa-thumbs-up" style="color:white"></i> Like</button>
+        </div>
+    </div>
+</div>
+<div class="container" id="comments">
+
+</div>
+
+<script src="~/js/Comment.js"></script>
+<script>
+
+</script>

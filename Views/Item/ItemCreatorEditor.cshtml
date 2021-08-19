@@ -5,8 +5,8 @@
 @{
     string buttontext = ViewData["func"].ToString();
     string msg = ViewData["msg"] != null ? ViewData["msg"].ToString() : null;
-    var tags = Model.Tags!=null?JsonConvert.SerializeObject(Model.Tags.Select(i => i.Name).ToArray()):null;
-    var whitelist = JsonConvert.SerializeObject(context.Tags.Select(i => i.Name).ToArray());
+    var tags = Model.Tags!=null?JsonConvert.SerializeObject(Model.Tags.Select(i => i.Name).ToArray()):"''";
+    var whitelist = context.Tags!=null?JsonConvert.SerializeObject(context.Tags.Select(i => i.Name).ToArray()):"''";
 }
 
 <style>
@@ -181,7 +181,7 @@
 <script>
     var whitelist = @Html.Raw(whitelist);
     var m = '@Html.Raw(msg)';
-    var tags = '@Html.Raw(tags)';
+    var tags = @Html.Raw(tags);
     window.onload = function () {
         console.log(whitelist);
         console.log(@Html.Raw(tags))

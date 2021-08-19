@@ -48,16 +48,17 @@
     var d3 = '@Model.Date3Name'
 
     var openread = function (e) {
-
-    } 
+        var url = '@Url.Action("Index", "Item", new { id = "__id__" })'.replace("__id__", this.dataItem($(e.target).closest("tr")).id);
+        window.location.href = url;
+    }
 
     var crerateitem = function (e) {
-        var url = '@Url.Action("ItemCreatorEditor", "Collection", new { collectionid = Model.Id })';
+        var url = '@Url.Action("ItemCreatorEditor", "Item", new { collectionid = Model.Id })';
         window.location.href = url;
     }
 
     var edititem = function (e) {
-        var url = '@Url.Action("ItemCreatorEditor", "Collection", new { collectionid = Model.Id, id = "__id__"})'.replace("__id__", this.dataItem($(e.target).closest("tr")).id);
+        var url = '@Url.Action("ItemCreatorEditor", "Item", new { collectionid = Model.Id, id = "__id__"})'.replace("__id__", this.dataItem($(e.target).closest("tr")).id);
         window.location.href = url;
     }
 </script>
