@@ -31,7 +31,7 @@
                 <div class="form-group">
                     <label>Drop image</label>
                     <img id="" class="img-fluid rounded mb-4 mb-lg-0 dropzone" src="@img" alt="" />
-                    <input asp-for="UrlImg" class="form-control imgurl" readonly />
+                    <input asp-for="UrlImg" class="form-control imgurl" readonly hidden/>
                 </div>
                 <h4>
                     Optional fields, enter a name if required
@@ -109,7 +109,6 @@
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 <script>
     var m = '@Html.Raw(msg)';
-    var url = document.getElementById('Profile').value;
     window.onload = function () {
         dropimage('dropzone', 'imgurl');
         console.log('load');

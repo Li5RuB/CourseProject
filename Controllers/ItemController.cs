@@ -43,6 +43,24 @@ namespace CourseProject.Controllers
 
         [Authorize]
         [HttpPost]
+        public async Task<JsonResult> ClickLikeAsync(string id)
+        {
+            var item = await context.Items.Include(i => i.WhoLiked).FirstOrDefaultAsync(i => i.Id == int.Parse(id));
+            var user = item.WhoLiked.FirstOrDefault(i => i.UserName == User.Identity.Name);
+            if (user!=null)
+            {
+                item.WhoLiked.Remove(user);
+                await context.SaveChangesAsync();
+                return Json(false);
+            }else {
+                item.WhoLiked.Add(await userManager.GetUserAsync(User));
+                await context.SaveChangesAsync();
+                return Json(true);
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
         public async Task<IActionResult> ItemCreatorEditorAsync(Item item, string tags)
         {
             var i = await context.Items.Include(i => i.Tags).FirstOrDefaultAsync(i => i.Id == item.Id);

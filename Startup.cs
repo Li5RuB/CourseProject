@@ -16,6 +16,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AspNet.Security.OAuth.Vkontakte;
 using CourseProject.Models;
+using CourseProject.Hubs;
 
 namespace CourseProject
 {
@@ -39,7 +40,7 @@ namespace CourseProject
             services.AddDefaultIdentity<MyIdentity>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
-
+            services.AddSignalR();
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
                 facebookOptions.AppId = "537550894236835";
@@ -82,6 +83,10 @@ namespace CourseProject
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+            });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<CommentHub>("/comment");
             });
         }
     }

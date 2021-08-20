@@ -3,6 +3,8 @@
 @{
     var Item = JsonConvert.SerializeObject(Model, Formatting.Indented);
     var tags = Model.Tags != null ? string.Join(", ", Model.Tags.Select(i => i.Name).ToArray()) : "No tags set";
+    var comauthor = User.Identity.Name != null ? User.Identity.Name : "author";
+    var like = Model.WhoLiked.FirstOrDefault(i => i.UserName == User.Identity.Name) != null ? "true" : "false";
 }
 
 <div class="container pb-4" style="background-color: #F2F2F2">
@@ -187,15 +189,65 @@
     </div>
     <div class="row">
         <div class="m-2 ml-4">
-            <button class="btn btn-primary"><i id="likebutton" class="fa fa-thumbs-up" style="color:white"></i> Like</button>
+            <button id="btnlike" class="btn btn-primary"><i id="likebutton" class="fa fa-thumbs-up" style="color:white"></i> Like</button>
         </div>
     </div>
 </div>
-<div class="container" id="comments">
+<div class="container pt-5" >
+    <div class="col justify-content-center pb-3">
+        <textarea class="form-control" id="comment-edit" placeholder="Comment..." rows="3" style="resize:none"></textarea>
+        <button id="sendcomment" class="btn btn-primary btn-block">leave a comment</button>
+    </div>
+    <div class="col" id="comments">
 
+    </div>
 </div>
 
 <script src="~/js/Comment.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="~/js/signalr/dist/browser/signalr.min.js"></script>
 <script>
+    var author = '@Html.Raw(comauthor)';
+    const hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/comment")
+        .build();
 
+    var id = '@Model.Id';
+    async function Start() {
+        await hubConnection.start();
+        hubConnection.invoke('InitComments',@Model.Id);
+    }
+    $(document).ready(function () {
+        Start();
+        makelike(@Html.Raw(like))
+    })
+    hubConnection.on('CreateComment', function (text,author) {
+        CreateComment(text, author);
+    })
+    $('#btnlike').on('click', function () {
+        console.log('like')
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ClickLike")",
+            data: { 'id': id },
+            success: function (response) {
+                makelike(response);
+            },
+            error: function (response) {
+                alert('Likes are available to authorized users only')
+            }
+        })
+    })
+    $('#sendcomment').on('click', function () {
+            hubConnection.invoke('AddComment', @Model.Id, $('#comment-edit').val(), author).catch(r => alert('Comments are available to authorized users only'))
+    })
+
+    function makelike(b) {
+        if (b) {
+            $('#likebutton').css('color','red')
+        } else{
+            $('#likebutton').css('color', 'white')
+        }
+    }
 </script>
