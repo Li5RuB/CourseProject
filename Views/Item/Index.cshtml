@@ -7,7 +7,7 @@
     var like = Model.WhoLiked.FirstOrDefault(i => i.UserName == User.Identity.Name) != null ? "true" : "false";
 }
 
-<div class="container pb-4" style="background-color: #F2F2F2">
+<div class="container pb-4" >
     <div class="row justify-content-center pb-4  pt-2">
         <h3>@Model.Name</h3>
     </div>

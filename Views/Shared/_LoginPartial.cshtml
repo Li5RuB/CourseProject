@@ -3,24 +3,50 @@
 @inject UserManager<MyIdentity> UserManager
 
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-    </li>
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+    <li>
+        <form class="Search pr-3">
+            <div class="form-group row">
+                <div class="input-group-append">
+                    <input class="form-control" id="searchBox" type="text" placeholder="Search">
+                    <button id="startsearch" class="btn btn-primary">Search</button>
+                </div>
+            </div>
         </form>
     </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+    <li>
+        <a href="" class="dropdown-item btn btn-outline-info btn-lg ml-auto font-weight-bold" id="theme-toggler" onclick="toggleTheme()"></a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
 </ul>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $('#startsearch').click(function () {
+        var url = '@Url.Action("Index","Search",new { input="_input_"})'.replace('_input_',)
+    })
+    $('#searchBox').keydown(function (event) {
+        var keyCode = (event.keyCode ? event.keyCode : event.which);
+        if (keyCode == 13) {
+            $('#startsearch').trigger('click');
+        }
+    });
+</script>

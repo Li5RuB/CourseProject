@@ -73,3 +73,8 @@ body {
 .imgcard {
     max-height: 300px;
 }
+
+.k-grid td {
+    color: black;
+    font-size: 15px;
+}
