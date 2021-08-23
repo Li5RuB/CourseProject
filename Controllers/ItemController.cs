@@ -28,9 +28,11 @@ namespace CourseProject.Controllers
         }
 
         [Authorize]
-        public IActionResult ItemCreatorEditor(string collectionid, string id = "0")
+        public async Task<IActionResult> ItemCreatorEditorAsync(string collectionid, string id = "0")
         {
             int iid = int.Parse(id);
+            if (!await AccessValidation.CheckAccessAsync(userManager, context, User, int.Parse(collectionid)))
+                return RedirectToAction("Index", "Home");
             if (iid > 0)
             {
                 var item = context.Items.Include(i => i.Tags).Include(i => i.Collection).FirstOrDefault(i => i.Id == iid);
@@ -63,8 +65,10 @@ namespace CourseProject.Controllers
         [HttpPost]
         public async Task<IActionResult> ItemCreatorEditorAsync(Item item, string tags)
         {
+            if (!await AccessValidation.CheckAccessAsync(userManager, context, User, item.CollectionId))
+                return RedirectToAction("Index", "Home");
             var i = await context.Items.Include(i => i.Tags).FirstOrDefaultAsync(i => i.Id == item.Id);
-            var t = tags.Split(',');
+            var t = string.IsNullOrEmpty(tags)?null:tags.Split(',');
             item = await GetItemWithTags(item, t);
             if (i != null)
             {
@@ -87,14 +91,18 @@ namespace CourseProject.Controllers
         }
         private async Task<Item> GetItemWithTags(Item item, string[] t)
         {
-            item.Tags.Clear();
-            foreach (var tag in t)
+            if (t!=null)
             {
-                var ta = await context.Tags.FirstOrDefaultAsync(i => i.Name == tag);
-                if (ta == null)
-                    context.Tags.Add(new Tag() { Name = tag });
-                await context.SaveChangesAsync();
-                item.Tags.Add(context.Tags.FirstOrDefault(i => i.Name == tag));
+                item.Tags.Clear();
+                foreach (var tag in t)
+                {
+                    var ta = await context.Tags.FirstOrDefaultAsync(i => i.Name == tag);
+                    if (ta == null)
+                        context.Tags.Add(new Tag() { Name = tag });
+                    await context.SaveChangesAsync();
+                    item.Tags.Add(context.Tags.FirstOrDefault(i => i.Name == tag));
+                }
+                
             }
             return item;
         }
@@ -112,10 +120,12 @@ namespace CourseProject.Controllers
 
         [HttpPost]
         [Authorize]
-        public void Delete(string id)
+        public async Task DeleteAsync(string id)
         {
-            context.Items.Remove(context.Items.Find(int.Parse(id)));
-            context.SaveChanges();  
+            if (await AccessValidation.CheckAccessAsync(userManager, context, User, context.Items.Find(int.Parse(id)).CollectionId)){ 
+                context.Items.Remove(context.Items.Find(int.Parse(id)));
+                context.SaveChanges();
+            }
         }
     }
 }

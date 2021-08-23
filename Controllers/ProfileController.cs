@@ -16,17 +16,23 @@ namespace CourseProject.Controllers
     {
         private UserManager<MyIdentity> userManager;
         private ApplicationDbContext context;
-        public ProfileController(UserManager<MyIdentity> userManager, ApplicationDbContext context)
+        private RoleManager<IdentityRole> roleManager;
+        public ProfileController(UserManager<MyIdentity> userManager, ApplicationDbContext context, RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
             this.context = context;
+            this.roleManager = roleManager;
         }
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> IndexAsync(string userid)
         {
             var curuser = await userManager.GetUserAsync(User);
-            var user = await context.Users.Include(i => i.Collections).ThenInclude(t=>t.Topic   ).SingleAsync(u => u.Email == curuser.Email);
-            var collection = user.Collections;
-            return View(collection);
+            if (curuser.Id==userid||await userManager.IsInRoleAsync(curuser,"admin"))
+            {
+                var user = await context.Users.Include(i => i.Collections).ThenInclude(t => t.Topic).SingleAsync(u => u.Email == curuser.Email);
+                var collection = user.Collections;
+                return View(collection);
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

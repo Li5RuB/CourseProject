@@ -1,9 +1,14 @@
-﻿@using Newtonsoft.Json;
+﻿@using Microsoft.AspNetCore.Identity
+@using Newtonsoft.Json
+@using CourseProject.Data
 @model Collection
+@inject UserManager<MyIdentity> userManager
+@inject ApplicationDbContext context
 @{
     var Collection = JsonConvert.SerializeObject(Model, Formatting.Indented);
     var defimg = "https://www.smartdatajob.com/images/joomlart/demo/default.jpg";
     var img = Model != null ? (string.IsNullOrEmpty(Model.UrlImg) ? defimg : Model.UrlImg) : defimg;
+    var admin = await AccessValidation.CheckAccessAsync(userManager, context, User, Model.Id)?"true":"";
 }
 
 <div class="container">
@@ -30,6 +35,7 @@
 <script src="https://kendo.cdn.telerik.com/2021.1.330/js/kendo.all.min.js"></script>
 <script src="~/js/ItemGrid.js"></script>
 <script>
+    var admin = '@admin';
     var collectionId = '@Model.Id';
     var i1 = '@Model.Integer1Name'
     var i2 = '@Model.Integer2Name'

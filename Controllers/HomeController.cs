@@ -20,6 +20,7 @@ namespace CourseProject.Controllers
 
         public IActionResult Index()
         {
+
             return View();
         }
         

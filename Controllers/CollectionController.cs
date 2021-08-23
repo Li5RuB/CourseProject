@@ -43,12 +43,14 @@ namespace CourseProject.Controllers
         
 
         [Authorize]
-        public IActionResult CollectionsCreatorEditor(string id = "0")
+        public async Task<IActionResult> CollectionsCreatorEditorAsync(string id = "0")
         {
             int iid = int.Parse(id);
             var topics = context.Topics;
             ViewBag.Topics = new SelectList(topics, "Id", "Name");
             if (iid > 0){
+                if (!await AccessValidation.CheckAccessAsync(userManager, context, User, iid))
+                    return RedirectToAction("Index", "Home");
                 var coll = context.Collections.Find(iid);
                 return View(coll);
             }
@@ -59,10 +61,14 @@ namespace CourseProject.Controllers
         [HttpDelete]
         public async Task<OkObjectResult> Delete(string id)
         {
-            var collection = await context.Collections.FindAsync(int.Parse(id));
-            context.Collections.Remove(collection);
-            await context.SaveChangesAsync();
-            return Ok($"#{id}");
+            if (await AccessValidation.CheckAccessAsync(userManager, context, User, int.Parse(id)))
+            {
+                var collection = await context.Collections.FindAsync(int.Parse(id));
+                context.Collections.Remove(collection);
+                await context.SaveChangesAsync();
+                return Ok($"#{id}");
+            }
+            return Ok("");
         }
 
         [Authorize]

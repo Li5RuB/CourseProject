@@ -59,7 +59,8 @@
             { field: "text1", title: t1, type: "text", hidden: CheckNullOrEmpty(t1) },
             { field: "text2", title: t2, type: "text", hidden: CheckNullOrEmpty(t2) },
             { field: "text3", title: t3, type: "text", hidden: CheckNullOrEmpty(t3) },
-            { command: [{ text: 'edit', click: edititem }, { text: 'open', click: openread }, { text: 'delete', click: deleteitem }],width:230 },
+            { command: { text: 'open', click: openread }, width: 80},
+            { command: [{ text: 'edit', click: edititem },{ text: 'delete', click: deleteitem }], width: 160, hidden: CheckNullOrEmpty(admin) },
 
         ],
         dataSource: datasource,

@@ -38,7 +38,10 @@ namespace CourseProject
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<MyIdentity>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
             services.AddControllersWithViews();
             services.AddSignalR();
             services.AddAuthentication().AddFacebook(facebookOptions =>
