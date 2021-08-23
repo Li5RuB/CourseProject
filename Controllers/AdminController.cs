@@ -29,9 +29,9 @@ namespace CourseProject.Controllers
         public async Task<JsonResult> GetUsersAsync()
         {
             List<UserModel> users = new List<UserModel>();
-            foreach (var item in userManager.Users)
+            foreach (var item in userManager.Users.ToList())
             {
-                users.Add(new UserModel(item.Id, item.Email, await userManager.IsInRoleAsync(item, "admin"), await userManager.IsLockedOutAsync(item)));
+                users.Add(new UserModel(item.Id, item.Email, await userManager.IsInRoleAsync(item,"admin"),await userManager.IsLockedOutAsync(item)));
             }
             return Json(users);
         }
@@ -39,12 +39,18 @@ namespace CourseProject.Controllers
         [HttpPost]
         public async Task DeleteUserAsync(string id)
         {
+            var curuser = await userManager.GetUserAsync(User);
+            if (curuser.Id == id)
+                return;
             await userManager.DeleteAsync(await userManager.FindByIdAsync(id));
         }
 
         [HttpPost]
         public async Task SetBlockAsync(string id)
         {
+            var curuser = await userManager.GetUserAsync(User);
+            if (curuser.Id == id)
+                return;
             var user = await userManager.FindByIdAsync(id);
             if (user.LockoutEnd>DateTime.Now)
             {
@@ -57,6 +63,9 @@ namespace CourseProject.Controllers
         [HttpPost]
         public async Task SetAdminAsync(string id)
         {
+            var curuser = await userManager.GetUserAsync(User);
+            if (curuser.Id == id)
+                return;
             if (await userManager.IsInRoleAsync(await userManager.FindByIdAsync(id),"admin"))
             {
                 await userManager.RemoveFromRoleAsync(await userManager.FindByIdAsync(id), "admin");
