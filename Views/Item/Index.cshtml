@@ -4,7 +4,7 @@
     var Item = JsonConvert.SerializeObject(Model, Formatting.Indented);
     var tags = Model.Tags != null ? string.Join(", ", Model.Tags.Select(i => i.Name).ToArray()) : "No tags set";
     var comauthor = User.Identity.Name != null ? User.Identity.Name : "author";
-    var like = Model.WhoLiked.FirstOrDefault(i => i.UserName == User.Identity.Name) != null ? "true" : "false";
+    var like = Model.WhoLiked.FirstOrDefault(i => i.UserName == User.Identity.Name) != null ? true : false;
 }
 
 <div class="container pb-4" >
@@ -187,7 +187,10 @@
             }
         </div>
     </div>
-    <div class="row">
+    <div class="row ">
+        <div class="d-flex align-items-center ml-4">
+        <h7>Likes <h7 id="likecount"></h7></h7>
+        </div>
         <div class="m-2 ml-4">
             <button id="btnlike" class="btn btn-primary"><i id="likebutton" class="fa fa-thumbs-up" style="color:white"></i> Like</button>
         </div>
@@ -220,7 +223,7 @@
     }
     $(document).ready(function () {
         Start();
-        makelike(@Html.Raw(like))
+        makelike(@Html.Raw(JsonConvert.SerializeObject(new {b=like,count = Model.WhoLiked.Count})))
     })
     hubConnection.on('CreateComment', function (text,author) {
         CreateComment(text, author);
@@ -243,11 +246,13 @@
             hubConnection.invoke('AddComment', @Model.Id, $('#comment-edit').val(), author).catch(r => alert('Comments are available to authorized users only'))
     })
 
-    function makelike(b) {
-        if (b) {
+    function makelike(response) {
+        console.log(response)
+        if (response.b) {
             $('#likebutton').css('color','red')
         } else{
             $('#likebutton').css('color', 'white')
         }
+        $('#likecount').html(response.count)
     }
 </script>

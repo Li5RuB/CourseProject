@@ -53,11 +53,11 @@ namespace CourseProject.Controllers
             {
                 item.WhoLiked.Remove(user);
                 await context.SaveChangesAsync();
-                return Json(false);
+                return Json(new {b = false,count=item.WhoLiked.Count});
             }else {
                 item.WhoLiked.Add(await userManager.GetUserAsync(User));
                 await context.SaveChangesAsync();
-                return Json(true);
+                return Json(new { b = true, count = item.WhoLiked.Count });
             }
         }
 

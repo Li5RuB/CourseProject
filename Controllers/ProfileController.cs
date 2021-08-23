@@ -25,8 +25,10 @@ namespace CourseProject.Controllers
         }
         public async Task<IActionResult> IndexAsync(string userid)
         {
+            
             ViewData["userid"] = userid;
             var curuser = await userManager.GetUserAsync(User);
+
             if (curuser.Id==userid||await userManager.IsInRoleAsync(curuser,"admin"))
             {
                 var user = await context.Users.Include(i => i.Collections).ThenInclude(t => t.Topic).SingleAsync(u => u.Id == userid);

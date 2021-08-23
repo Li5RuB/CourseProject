@@ -31,13 +31,12 @@
     </div>
 </div>
 
-<script src="~/js/Collection.js"></script>
 
+<script src="~/js/Collection.js"></script>
 <script>
     var collections = @Html.Raw(Collections);
     window.onload = function () {
         console.log(collections);
-        collections.forEach(c => CreateCollCard(c.Id, c.Name, c.Topic.Name, c.Description, c.UrlImg))
+        collections.forEach(c => CreateCollCard(c.Id, c.Name, c.Topic.Name, c.Description, c.UrlImg,true))
     }
-
 </script>

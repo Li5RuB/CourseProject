@@ -24,6 +24,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="morelinq" Version="3.3.2" />
+    <PackageReference Include="MoreLinq.Source.MoreEnumerable.DistinctBy" Version="1.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties properties_4servicedependencies_4courseproject20210805144650_x0020_-_x0020_web_x0020_deploy_4mssql1_1arm_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

@@ -1,3 +1,108 @@
-﻿@{
+﻿@using CourseProject.Data
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore;
+@inject UserManager<MyIdentity> userManager
+@inject ApplicationDbContext context
+@Html.Hidden("ViewUrl", Url.Action("Index", "Collection", new { id = "__id__" }))
+@Html.Hidden("ViewUrlItem", Url.Action("Index", "Item", new { id = "__id__" }))
+@{
     ViewData["Title"] = "Home Page";
+    var tags = JsonConvert.SerializeObject(context.Tags.Select(i => i.Name).ToArray());
+    var threelastitems = JsonConvert.SerializeObject(context.Items.Include(i => i.Collection).Include(i => i.Tags).Include(i => i.WhoLiked).ToList().TakeLast(context.Items.Count() >= 3 ? 3 : context.Items.Count()));
+    var coll = context.Collections.Include(i => i.Items).Include(i => i.Topic).ToList().OrderBy(u => u.Items.Count).TakeLast(context.Collections.Count() >= 2 ? 2 : context.Collections.Count());
+    foreach (var item in coll)
+    {
+        if (!string.IsNullOrEmpty(item.Description))
+        {
+            item.Description = MarkdownParser.Parse(item.Description);
+        }
+    }
+    var collection = JsonConvert.SerializeObject(coll);
 }
+
+<style>
+    #chartdiv {
+        width: 100%;
+        height: 600px;
+    }
+</style>
+<div class="row justify-content-center"><H3>Tag cloud</H3></div>
+<div id="chartdiv"></div>
+
+<div class="row justify-content-center pb-4">
+    <div class="col justify-content-center">
+        <h3>Сollections with the largest number of items:</h3>
+        <div class="row" id="collections"></div>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col">
+        <h3>Recently created items:</h3>
+        <div class="card-deck" id="items"></div>
+    </div>
+</div>
+
+<script src="~/js/Item.js"></script>
+<script src="~/js/Collection.js"></script>
+<script>
+    var collections = @Html.Raw(collection);
+    var items = @Html.Raw(threelastitems);
+    window.onload = function () {
+        collections.forEach(c => CreateCollCard(c.Id, c.Name, c.Topic.Name, c.Description, c.UrlImg, false))
+        items.forEach(c => CreateItemCard(c.Id, c.Name, c.Tags, c.WhoLiked.length))
+    }
+</script>
+
+
+
+<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/plugins/wordCloud.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/frozen.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+<script>
+    am4core.ready(function () {
+
+        am4core.useTheme(am4themes_frozen);
+        am4core.useTheme(am4themes_animated);
+
+        var chart = am4core.create("chartdiv", am4plugins_wordCloud.WordCloud);
+        chart.fontFamily = "Courier New";
+        var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
+        series.randomness = 0.1;
+        series.rotationThreshold = 0.5;
+
+        series.data = ParseTag(@Html.Raw(tags))
+
+        series.dataFields.word = "tag";
+        series.dataFields.value = "count";
+
+        series.heatRules.push({
+            "target": series.labels.template,
+            "property": "fill",
+            "min": am4core.color("#0000CC"),
+            "max": am4core.color("#CC00CC"),
+            "dataField": "value"
+        });
+
+        series.labels.template.url = "/Home/Search?t={word}";
+        series.labels.template.tooltipText = "{word}";
+
+        var hoverState = series.labels.template.states.create("hover");
+        hoverState.properties.fill = am4core.color("#FF0000");
+
+    });
+    function ParseTag(tags) {
+        var sours = [];
+        for (var i = 0; i < tags.length; i++) {
+            sours.push({ "tag": tags[i], "count": getRandomInt(999)})
+        }
+        return sours;
+    }
+
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+    }
+</script>
+
