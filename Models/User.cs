@@ -10,11 +10,13 @@ namespace CourseProject.Models
         public string Id{ get; set; }
         public string Email { get; set; }
         public bool IsAdmin { get; set; }
+        public bool IsBlock { get; set; }
         
-        public UserModel(string Id, string Email, bool IsAdmin)
+        public UserModel(string Id, string Email, bool IsAdmin, bool IsBlock)
         {
             this.Id = Id;
             this.Email = Email;
+            this.IsBlock = IsBlock;
             this.IsAdmin = IsAdmin;
         }
     }

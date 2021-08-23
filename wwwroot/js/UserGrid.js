@@ -11,6 +11,7 @@
                 fields: {
                     email: { validation: { required: false } },
                     isAdmin: { validation: { required: false } },
+                    isBlock: { validation: { required: false } },
                 }
             }
         }
@@ -20,8 +21,9 @@
         columns: [
             { field: "id", hidden: true },
             { field: "email", title: "Email", editable: false },
+            { field: "isBlock", title: "IsBlocked", editable: false },
             { field: "isAdmin", title: "IsAdmin", editable: false},
-            { command: [{ text: 'open', click: openread }, { text: 'block-unblock', click: setblock }, {text: 'admin-unadmin', click: setadmin}, { text: 'delete', click: deleteuser }], width: 400},
+            { command: [{ text: 'open', click: openread }, { text: 'setblock', click: setblock }, {text: 'setadmin', click: setadmin}, { text: 'delete', click: deleteuser }], width: 400},
 
         ],
         dataSource: datasource,
@@ -47,14 +49,22 @@ var deleteuser = function (e) {
     }, function () { });
 }
 
-var openread = function () {
-
+var setblock = function (e) {
+    var tr = $(e.target).closest("tr");
+    var id = this.dataItem(tr).id;
+    kendo.confirm("Are you sure that you want to change the state of this user?").then(function () {
+        $.post('/Admin/SetBlock', { '': id }, function () {
+            $("#grid").data("kendoGrid").dataSource.read();
+        });
+    }, function () { });
 }
 
-var setblock = function () {
-
-}
-
-var setadmin = function () {
-
+var setadmin = function (e) {
+    var tr = $(e.target).closest("tr");
+    var id = this.dataItem(tr).id;
+    kendo.confirm("Are you sure that you want to change the state of this user?").then(function () {
+        $.post('/Admin/SetAdmin', { '': id }, function () {
+            $("#grid").data("kendoGrid").dataSource.read();
+        });
+    }, function () { });
 }

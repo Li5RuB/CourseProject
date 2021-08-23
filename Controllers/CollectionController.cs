@@ -43,18 +43,20 @@ namespace CourseProject.Controllers
         
 
         [Authorize]
-        public async Task<IActionResult> CollectionsCreatorEditorAsync(string id = "0")
+        public async Task<IActionResult> CollectionsCreatorEditorAsync(string userid, string id = "0")
         {
             int iid = int.Parse(id);
             var topics = context.Topics;
             ViewBag.Topics = new SelectList(topics, "Id", "Name");
             if (iid > 0){
+                ViewData["func"] = "Edit";
                 if (!await AccessValidation.CheckAccessAsync(userManager, context, User, iid))
                     return RedirectToAction("Index", "Home");
                 var coll = context.Collections.Find(iid);
                 return View(coll);
             }
-            return View();
+            ViewData["func"] = "Create";
+            return View(new Collection() { CreatorId=userid});
         }
 
         [Authorize]
@@ -80,13 +82,12 @@ namespace CourseProject.Controllers
                 EditCollection(collection);
             else
                 await CreateCollectionAsync(collection);
-            return RedirectToAction("Index", "Profile");
+            return RedirectToAction("Index", "Profile", new { userid = collection.CreatorId});
         }
 
         private async Task CreateCollectionAsync(Collection collection)
         {
-            var curuser = await userManager.GetUserAsync(User);
-            var user = await userManager.Users.Include(i => i.Collections).SingleAsync(i => i.Email == curuser.Email);
+            var user = await userManager.Users.Include(i => i.Collections).SingleAsync(i => i.Id == collection.CreatorId);
             user.Collections.Add(collection);
             var result = await userManager.UpdateAsync(user);
         }

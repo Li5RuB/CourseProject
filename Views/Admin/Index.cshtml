@@ -8,4 +8,10 @@
 <script src="https://kendo.cdn.telerik.com/2019.2.619/js/jquery.min.js"></script>
 <script src="https://kendo.cdn.telerik.com/2021.1.330/js/kendo.all.min.js"></script>
 <script src="~/js/UserGrid.js"></script>
-<script></script>
+<script>
+    var openread = function (e) {
+        var tr = $(e.target).closest("tr");
+        var id = this.dataItem(tr).id;
+        window.location = '@Url.Action("Index","Profile", new { userid = "__id__" })'.replace('__id__', id);
+    }
+</script>

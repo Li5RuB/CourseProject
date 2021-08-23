@@ -1,9 +1,9 @@
 ﻿@model Collection
 @{
-    string buttontext = Model != null ? "Edit" : "Create";
+    string buttontext = ViewData["func"].ToString();
     string msg = ViewData["msg"]!=null?ViewData["msg"].ToString():null;
     var defimg = "https://i.ibb.co/16WzV23/emblemdownloads-93482.png";
-    var img = Model != null ? (string.IsNullOrEmpty(Model.UrlImg) ? defimg : Model.UrlImg) : defimg;
+    var img = string.IsNullOrEmpty(Model.UrlImg) ? defimg : Model.UrlImg;
 }
 
 <style>
@@ -17,6 +17,7 @@
             <form id="Collection" method="post">
                 <h4>@buttontext collection</h4>
                 <div class="form-group">
+                    <input asp-for="CreatorId" class="form-control" readonly hidden value="@Model.CreatorId"/>
                     <label>Name</label>
                     @Html.EditorFor(i => i.Name)
                 </div>

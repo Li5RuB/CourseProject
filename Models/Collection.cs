@@ -26,6 +26,7 @@ namespace CourseProject.Models
 
         public ICollection<Item> Items { get; set; }
 
+        public string CreatorId { get; set; }
         [JsonIgnore]
         [IgnoreDataMember]
         public MyIdentity Creator { get; set; }

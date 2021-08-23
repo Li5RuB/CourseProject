@@ -1,6 +1,6 @@
 ﻿@using Newtonsoft.Json;
 @model ICollection<Collection>
-@Html.Hidden("EditUrl", Url.Action("CollectionsCreatorEditor", "Collection", new { id = "__id__" }))
+@Html.Hidden("EditUrl", Url.Action("CollectionsCreatorEditor", "Collection", new { userid = ViewData["userid"].ToString(), id = "__id__" }))
 @Html.Hidden("ViewUrl", Url.Action("Index", "Collection", new { id = "__id__" }))
 @{
     foreach (var item in Model)
@@ -22,7 +22,7 @@
                 </h3>
             </div>
             <div class="col float-right">
-                <a href="~/Collection/CollectionsCreatorEditor" class="btn btn-primary float-right">Create collection</a>
+                <a href="@Url.Action("CollectionsCreatorEditor","Collection",new { userid = ViewData["userid"].ToString()})" class="btn btn-primary float-right">Create collection</a>
             </div>
         </div>
         <div id="collections" class="col">

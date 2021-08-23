@@ -31,9 +31,37 @@ namespace CourseProject.Controllers
             List<UserModel> users = new List<UserModel>();
             foreach (var item in userManager.Users)
             {
-                users.Add(new UserModel(item.Id, item.Email, await userManager.IsInRoleAsync(item, "admin")));
+                users.Add(new UserModel(item.Id, item.Email, await userManager.IsInRoleAsync(item, "admin"), await userManager.IsLockedOutAsync(item)));
             }
             return Json(users);
+        }
+
+        [HttpPost]
+        public async Task DeleteUserAsync(string id)
+        {
+            await userManager.DeleteAsync(await userManager.FindByIdAsync(id));
+        }
+
+        [HttpPost]
+        public async Task SetBlockAsync(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+            if (user.LockoutEnd>DateTime.Now)
+            {
+                user.LockoutEnd = DateTime.Now;
+            }
+            else { user.LockoutEnd = DateTime.MaxValue; }
+            var result = await userManager.UpdateAsync(user);
+        }
+
+        [HttpPost]
+        public async Task SetAdminAsync(string id)
+        {
+            if (await userManager.IsInRoleAsync(await userManager.FindByIdAsync(id),"admin"))
+            {
+                await userManager.RemoveFromRoleAsync(await userManager.FindByIdAsync(id), "admin");
+            }
+            else { await userManager.AddToRoleAsync(await userManager.FindByIdAsync(id), "admin"); }
         }
     }
 }
