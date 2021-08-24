@@ -1,10 +1,13 @@
 ﻿@Html.Hidden("ViewUrlItem", Url.Action("Index", "Item", new { id = "__id__" }))
+@{ 
+    var s = ViewData["s"] != null ? ViewData["s"].ToString() : "";
+}
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="input-group">
-                <input id="s" class="form-control" type="text" size="20" placeholder="Search" value="@ViewData["s"].ToString()" />
-                <input class="btn btn-primary" id="searchstart" value="Search" />
+                <input id="ser" class="form-control" type="text" size="20" placeholder="Search" value='@s' />
+                <button class="btn btn-primary" id="searchstart">Search</button>
             </div>
         </div>
     </div>
@@ -14,34 +17,35 @@
 </div>
 
 <div id="items" class="card-columns pt-4"></div>
+
 <script src="~/js/Item.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 <script>
-    var s = '@Html.Raw(ViewData["s"].ToString())'
-    var t = '@Html.Raw(ViewData["t"].ToString())'
+    var s = '@Html.Raw(ViewData["s"] != null ? ViewData["s"].ToString() : "")'
+    var t = '@Html.Raw(ViewData["t"] != null ? ViewData["t"].ToString() : "")'
     var conres = $('#items');
     window.onload = function () {
-        if (s) Search(s)
+                            if (s) Search(s)
         if (t) TagSearch(t)
     }
 
     $('#searchstart').click(function () {
-        var s = $('#s').val()
+                            var s = $('#ser').val()
         Search(s);
-    })
+                        })
 
     var Search = function (s) {
         $.get('/Home/GetSearchResult', { s: s }, function (items) {
-            conres.empty();
-            items.forEach(c => CreateItemCard(c.id, c.name, c.tags, c.whoLiked.length))
+                            conres.html("");
+                            items.forEach(c => CreateItemCard(c.id, c.name, c.tags, c.whoLiked.length))
         })
     }
-    var TagSearch = function (t) {
+                    var TagSearch = function (t) {
         $.get('/Home/GetResultByTags', { t: t }, function (items) {
-            console.log(items)
-            conres.empty();
-            items.forEach(c => CreateItemCard(c.id, c.name, c.tags, c.whoLiked.length))
+                        console.log(items)
+            conres.html("");
+                        items.forEach(c => CreateItemCard(c.id, c.name, c.tags, c.whoLiked.length))
         })
     }
 </script>

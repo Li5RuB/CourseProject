@@ -44,7 +44,7 @@ namespace CourseProject.Controllers
         {
             var items = context.Items.Include(i => i.Tags).Include(i => i.WhoLiked).Where(i => EF.Functions.Contains(i.Name, s));
             var comments = context.Comments.Include(i => i.Item).ThenInclude(i => i.WhoLiked).Include(i => i.Item).ThenInclude(i => i.Tags).Where(i => EF.Functions.Contains(i.Text, s)).Select(i => i.Item);
-            var description = context.Collections.Include(i => i.Topic).Include(i => i.Items).ThenInclude(i => i.WhoLiked).Include(i => i.Items).ThenInclude(i => i.Tags).Where(i => EF.Functions.Contains(i.Description, s) || EF.Functions.Contains(i.Name, s) || EF.Functions.Contains(i.Topic.Name, s)).SelectMany(i => i.Items);
+            var description = context.Collections.Include(i => i.Topic).Include(i => i.Items).ThenInclude(i => i.WhoLiked).Include(i => i.Items).ThenInclude(i => i.Tags).Where(i => EF.Functions.Contains(i.Description, s) || EF.Functions.Contains(i.Name, s)).SelectMany(i => i.Items);
             var allitems = items.Concat(comments).Concat(description).DistinctBy(i => i.Id);
             return Json(allitems);
         }
