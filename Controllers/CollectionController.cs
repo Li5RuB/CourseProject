@@ -36,7 +36,7 @@ namespace CourseProject.Controllers
         public async Task<JsonResult> GetItemsAsync(string Id)
         {
             var Collection = await context.Collections.Include(i=>i.Items).ThenInclude(i=>i.Tags).FirstOrDefaultAsync(i=> i.Id==int.Parse(Id));
-            var Items = Collection.Items;
+            var Items = Collection.Items.ToList();
             return Json(Items);
         }
 

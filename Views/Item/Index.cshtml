@@ -159,7 +159,12 @@
                 <div>
 
                     <h4>@Model.Collection.Text1Name</h4>
-                    <p class="mb-0">@Model.Text1</p>
+                    <p class="mb-0">
+                        @if (!string.IsNullOrEmpty(Model.Text1))
+                        {
+                            @Html.Raw(MarkdownParser.Parse(Model.Text1));
+                        }
+                        </p>
 
                 </div>
                 <hr />
@@ -170,7 +175,12 @@
                 <div>
 
                     <h4>@Model.Collection.Text2Name</h4>
-                    <p class="mb-0">@Model.Text2</p>
+                    <p class="mb-0">
+                        @if (!string.IsNullOrEmpty(Model.Text2))
+                        {
+                            @Html.Raw(MarkdownParser.Parse(Model.Text2));
+                        }
+                    </p>
 
                 </div>
                 <hr />
@@ -181,7 +191,12 @@
                 <div>
 
                     <h4>@Model.Collection.Text3Name</h4>
-                    <p class="mb-0">@Model.Text3</p>
+                    <p class="mb-0">
+                        @if (!string.IsNullOrEmpty(Model.Text3))
+                        {
+                            Html.Raw(MarkdownParser.Parse(Model.Text3));
+                        }
+                    </p>
 
                 </div>
             }
