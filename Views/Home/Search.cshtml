@@ -26,26 +26,35 @@
     var t = '@Html.Raw(ViewData["t"] != null ? ViewData["t"].ToString() : "")'
     var conres = $('#items');
     window.onload = function () {
-                            if (s) Search(s)
+        if (s) Search(createTermWord(s))
         if (t) TagSearch(t)
     }
 
     $('#searchstart').click(function () {
-                            var s = $('#ser').val()
-        Search(s);
-                        })
+        var s = $('#ser').val();
+        Search(createTermWord(s));
+    });
 
     var Search = function (s) {
         $.get('/Home/GetSearchResult', { s: s }, function (items) {
-                            conres.html("");
-                            items.forEach(c => CreateItemCard(c.id, c.name, c.tags, c.whoLiked.length))
-        })
-    }
-                    var TagSearch = function (t) {
-        $.get('/Home/GetResultByTags', { t: t }, function (items) {
-                        console.log(items)
             conres.html("");
-                        items.forEach(c => CreateItemCard(c.id, c.name, c.tags, c.whoLiked.length))
+            console.log(items);
+            if (items == "empty") {
+                conres.html("<h4>No matches found</h4>")
+                return
+            }
+            items.forEach(c => CreateItemCard(c.id, c.name, c.tags, c.whoLiked.length))
         })
-    }
+    };
+    var TagSearch = function (t) {
+        $.get('/Home/GetResultByTags', { t: t }, function (items) {
+            console.log(items)
+            conres.html("");
+            if (items == "empty") {
+                conres.html("<h4>No matches found</h4>")
+                return
+            }
+            items.forEach(c => CreateItemCard(c.id, c.name, c.tags, c.whoLiked.length))
+        });
+    };
 </script>

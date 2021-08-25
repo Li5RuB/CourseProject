@@ -40,3 +40,12 @@ function disableDarkTheme() {
 function createID() {
     return Math.floor(Math.random() * 10000000);
 }
+
+function createTermWord(text) {
+    var allword = text.split(' ');
+    var resultTerm = [];
+    allword.forEach(w => {
+        resultTerm.push('"' + w + '*"')
+    })
+    return resultTerm.join(' or ');
+}
