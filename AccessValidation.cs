@@ -16,6 +16,7 @@ namespace CourseProject
         {
             var curuser = await userManager.GetUserAsync(User);
             var collection = await context.Collections.Include(i=>i.Creator).FirstOrDefaultAsync(i=>i.Id == collid);
+            if (curuser == null) return false;
             if (collection.Creator.Id == curuser.Id || await userManager.IsInRoleAsync(curuser,"admin"))
             {
                 return true;
